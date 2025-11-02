@@ -1,18 +1,24 @@
 import os
 from flask import Flask, render_template, request
 
-app = Flask(__name__)
+# força as pastas corretas
+app = Flask(__name__, static_folder="static", template_folder="templates")
 
-# nossos personagens
+# rota de saúde pra testar
+@app.get("/health")
+def health():
+    return "OK", 200
+
+# ---- seu app ----
 PERSONAGENS = [
     {"id":"carol", "nome":"Carol", "desc":"Criança Gigante e Forte"},
-    {"id":"yasmin", "nome":"Yasmin", "desc":"Anã Assassina"},
+    {"id":"yasmin","nome":"Yasmin","desc":"Anã Assassina"},
     {"id":"vitoria","nome":"Vitória","desc":"A Sedutora Armadilhada"},
     {"id":"daniel","nome":"Daniel","desc":"Portador do Fogo"},
     {"id":"geovanna","nome":"Geovanna","desc":"Senhora Fofoqueira"},
 ]
 
-@app.route("/")
+@app.get("/")
 def index():
     rota = request.args.get("rota")
     msg = None
@@ -24,4 +30,5 @@ def index():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 3000))
-    app.run(host="0.0.0.0", port=port, debug=False)
+    app.run(host="0.0.0.0", port=port)
+
